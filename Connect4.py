@@ -15,26 +15,24 @@ GREEN = (0, 100, 0)
 ROW_COUNT = 6
 COLUMN_COUNT = 7
 
-#Create a matrix type board
+#Matrix board
 def create_board():
     board = np.zeros((ROW_COUNT, COLUMN_COUNT))
     return board
 
-#Drop piece
+#Pieces
 def drop_piece(board, row, col, piece):
     board[row][col] = piece
 
-#Make sure the selection lies in the matrix
 def is_valid_location(board, col):
     return board[ROW_COUNT-1][col] == 0
 
-#After droppping 1 piece, the row should be open for the next one above it
+#Stacking pieces in next row
 def get_next_open_row(board, col):
     for r in range(ROW_COUNT):
         if board[r][col] == 0:
             return r
 
-#To start collecting the piece from downward
 def print_board(board):
     print(np.flip(board, 0))
     
@@ -102,7 +100,7 @@ current_input_name = ""
 input_state = "player1"
 
 
-#UI of the game
+#UI
 board = create_board()
 game_over = False
 draw_game = False
@@ -115,13 +113,11 @@ restart_button = pygame.Rect(width / 2 - 125, height - 80, 250, 50)
 
 while True:
     
-    # --- Event Handling ---
-    # Process all events in the queue for the current frame
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
-        # Handle mouse clicks for the restart button, which can be done in any state
+        # Mouse usage
         if (game_over or draw_game) and event.type == pygame.MOUSEBUTTONDOWN:
             if restart_button.collidepoint(event.pos):
                 board = create_board()
@@ -149,7 +145,6 @@ while True:
                 else:
                     current_input_name += event.unicode
         
-        # Handle mouse events for gameplay
         if input_state == "game" and not game_over and not draw_game:
             if event.type == pygame.MOUSEMOTION:
                 posx = event.pos[0]
@@ -181,8 +176,6 @@ while True:
                     if board_full:
                         draw_game = True
 
-    # --- Drawing Logic ---
-    # This block runs every frame to draw the current state of the screen
     if input_state != "game":
         screen.fill(BLACK)
         prompt_text = myfont.render(
@@ -205,8 +198,7 @@ while True:
         else:
             pygame.draw.circle(screen, YELLOW, (posx, int(SQUARESIZE / 2)), RADIUS)
     
-    else: # Game over or draw
-        # Draw the final message and restart button
+    else:
         draw_board(board)
         if game_over:
             label = myfont.render(f"{player_1_name if turn == 1 else player_2_name} WINS!", 1, RED if turn == 1 else YELLOW)
@@ -219,5 +211,5 @@ while True:
         text_rect = button_text.get_rect(center=restart_button.center)
         screen.blit(button_text, text_rect)
 
-    # Single, final update to display everything
     pygame.display.update()
+    
