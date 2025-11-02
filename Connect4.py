@@ -189,5 +189,3 @@ while True:
         screen.blit(button_text, text_rect)
 
     pygame.display.update()
-
-    
