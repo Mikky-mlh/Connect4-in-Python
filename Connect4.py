@@ -137,7 +137,7 @@ while True:
                 posx = event.pos[0]
                 col = int(math.floor(posx / SQUARESIZE))
                 
-                if is_valid_location(board, col):
+                if 0 <= col < COLUMN_COUNT and is_valid_location(board, col):
                     row = get_next_open_row(board, col)
                     piece = turn + 1 # Player 1 is piece 1, Player 2 is piece 2
                     drop_piece(board, row, col, piece)
@@ -189,4 +189,5 @@ while True:
         screen.blit(button_text, text_rect)
 
     pygame.display.update()
+
     
