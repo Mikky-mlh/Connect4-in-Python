@@ -34,11 +34,27 @@ def get_next_open_row(board, col):
             return r
 
 def print_board(board):
+    """
+    Prints the game board with rows shown from bottom to top.
+    
+    Parameters:
+        board (array-like): 2D array representing the board grid (rows x columns), where empty cells and player pieces are stored as numeric values.
+    """
     print(np.flip(board, 0))
     
 def winning_move(board, piece):
     # Check all possible winning locations
     # Directions: horizontal, vertical, positive diagonal, negative diagonal
+    """
+    Determine whether the specified piece has four consecutive discs in a row anywhere on the board.
+    
+    Parameters:
+        board (ndarray): 2D array representing the game board; cells equal to `piece` indicate that piece's discs.
+        piece (int): Numeric identifier of the piece to check (for example, 1 or 2).
+    
+    Returns:
+        bool: `true` if a horizontal, vertical, or diagonal sequence of four matching `piece` exists, `false` otherwise.
+    """
     directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
     for r_start in range(ROW_COUNT):
         for c_start in range(COLUMN_COUNT):
@@ -49,6 +65,14 @@ def winning_move(board, piece):
     return False
 def draw_board(board):
     #Making a grid
+    """
+    Render the current game board to the Pygame display surface.
+    
+    Draws the Connect Four grid and all placed pieces from the provided board state onto the global Pygame screen. Empty cells are shown as black circles inside blue squares; cells with value 1 are drawn as red discs and cells with value 2 as yellow discs. The board's row 0 is treated as the top row of the logical board (display coordinates are flipped vertically so the bottom row appears at the bottom of the window).
+    
+    Parameters:
+        board (2D array-like): Grid representing the board state where 0 = empty, 1 = player 1 piece, 2 = player 2 piece.
+    """
     for c in range(COLUMN_COUNT):
         for r in range(ROW_COUNT):
             pygame.draw.rect(screen, BLUE, (c*SQUARESIZE, r*SQUARESIZE+SQUARESIZE, SQUARESIZE, SQUARESIZE))
@@ -92,6 +116,11 @@ RESTART_BUTTON_HEIGHT = 50
 restart_button = pygame.Rect((width - RESTART_BUTTON_WIDTH) / 2, height - RESTART_BUTTON_HEIGHT - 50, RESTART_BUTTON_WIDTH, RESTART_BUTTON_HEIGHT)
 
 def reset_game():
+    """
+    Reset the game state to initial values for starting a new match.
+    
+    Recreates the empty board, clears game flags and player names, resets the turn and input state, and prints the new board to the console. The following module-level variables are set: board, game_over, draw_game, turn, input_state, player_1_name, player_2_name, current_input_name.
+    """
     global board, game_over, draw_game, turn, input_state, player_1_name, player_2_name, current_input_name
     board = create_board()
     game_over = False
