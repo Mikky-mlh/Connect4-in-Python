@@ -3,17 +3,27 @@ import pygame
 import sys
 import math
 
-SQUARESIZE = 120
+pygame.init()
+
+ROW_COUNT = 6
+COLUMN_COUNT = 7
+
+info = pygame.display.Info()
+screen_width, screen_height = info.current_w, info.current_h
+
+SQUARESIZE = int(min(screen_width / (COLUMN_COUNT + 1), screen_height / (ROW_COUNT + 2)))
+
+width = COLUMN_COUNT * SQUARESIZE
+height = (ROW_COUNT + 1) * SQUARESIZE
+size = (width, height)
+RADIUS = int(SQUARESIZE / 2 - 5)
+
 BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
-RADIUS = int(SQUARESIZE/2 - 5)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 100, 0)
-
-ROW_COUNT = 6
-COLUMN_COUNT = 7
 
 #Matrix board
 def create_board():
@@ -61,16 +71,13 @@ def draw_board(board):
             elif board[r][c] == 2:
                 pygame.draw.circle(screen, YELLOW, (int(c*SQUARESIZE+SQUARESIZE/2), height - int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
 
-pygame.init()
-
-width = COLUMN_COUNT * SQUARESIZE
-height = (ROW_COUNT+1) * SQUARESIZE
-size = (width, height)
 screen = pygame.display.set_mode(size)
 
-myfont = pygame.font.SysFont("monospace", 50)
-myfont_result = pygame.font.SysFont("century751", 50)
-smallfont = pygame.font.SysFont("monospace", 10,)
+# Fonts
+font_size = int(SQUARESIZE * 0.42)
+myfont = pygame.font.SysFont("monospace", font_size)
+myfont_result = pygame.font.SysFont("century751", font_size)
+smallfont = pygame.font.SysFont("monospace", int(SQUARESIZE * 0.08))
 
 player_1_name = ""
 player_2_name = ""
@@ -86,9 +93,8 @@ player_1_name = ""
 player_2_name = ""
 current_input_name = ""
 input_state = "player1" 
-
-RESTART_BUTTON_WIDTH = 250
-RESTART_BUTTON_HEIGHT = 50
+RESTART_BUTTON_WIDTH = int(SQUARESIZE * 2.1)
+RESTART_BUTTON_HEIGHT = int(SQUARESIZE * 0.42)
 restart_button = pygame.Rect((width - RESTART_BUTTON_WIDTH) / 2, height - RESTART_BUTTON_HEIGHT - 50, RESTART_BUTTON_WIDTH, RESTART_BUTTON_HEIGHT)
 
 def reset_game():
@@ -137,7 +143,7 @@ while True:
                 posx = event.pos[0]
                 col = int(math.floor(posx / SQUARESIZE))
                 
-                if is_valid_location(board, col):
+                if 0 <= col < COLUMN_COUNT and is_valid_location(board, col):
                     row = get_next_open_row(board, col)
                     piece = turn + 1 # Player 1 is piece 1, Player 2 is piece 2
                     drop_piece(board, row, col, piece)
@@ -189,4 +195,3 @@ while True:
         screen.blit(button_text, text_rect)
 
     pygame.display.update()
-    
