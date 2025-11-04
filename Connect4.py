@@ -11,12 +11,16 @@ COLUMN_COUNT = 7
 info = pygame.display.Info()
 screen_width, screen_height = info.current_w, info.current_h
 
+
+if screen_width <= 0 or screen_height <= 0:
+    screen_width, screen_height = 800, 700 
+
 SQUARESIZE = int(min(screen_width / (COLUMN_COUNT + 1), screen_height / (ROW_COUNT + 2)))
 
 width = COLUMN_COUNT * SQUARESIZE
 height = (ROW_COUNT + 1) * SQUARESIZE
 size = (width, height)
-RADIUS = int(SQUARESIZE / 2 - 5)
+RADIUS = max(1, int(SQUARESIZE / 2 - 5))
 
 BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
