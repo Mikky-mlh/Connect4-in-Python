@@ -1,3 +1,5 @@
+# TODO: Making Connect 4 game in Python with Pygame and Numpy
+
 import numpy as np
 import pygame
 import sys
