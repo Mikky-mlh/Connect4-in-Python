@@ -3,3 +3,5 @@ I made a connect4 game using python, hope you will like it.
 
 
 Download the .exe file directly from the sorce or clone this repository to play the game!
+
+You might need to accept the run/don't run condition depending on the OS you are using.
